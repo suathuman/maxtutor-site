@@ -88,6 +88,17 @@
   .split p { color: var(--ink-muted); font-size: 16px; }
   .price { font-family: var(--mono); color: var(--max); font-size: 15px; }
 
+  .dialog { margin-top: 8px; border-top: 1px solid var(--hairline); }
+  .turn { display: grid; grid-template-columns: 96px 1fr; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--hairline); }
+  .turn .who { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; padding-top: 4px; }
+  .turn.m .who { color: var(--max); } .turn.y .who { color: var(--you); }
+  .turn p { margin: 0; font-size: 17px; } .turn.y p { color: var(--ink-muted); }
+  .grade { display: grid; grid-template-columns: repeat(5, 1fr); margin-top: 28px; border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
+  .grade div { padding: 16px 0; } .grade div + div { padding-left: 16px; border-left: 1px solid var(--hairline); }
+  .grade .num { display: block; font-size: 28px; color: var(--ink); } .grade .num.big { color: var(--max); }
+  .grade span { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-muted); }
+  .src { font-family: var(--mono); font-size: 12px; letter-spacing: .04em; color: var(--ink-faint); margin-top: 14px; }
+  .founder { font-size: 26px; font-weight: 500; margin: 0 0 4px; }
   .contact a { font-size: clamp(24px, 3.4vw, 40px); font-weight: 500; letter-spacing: -.01em; }
 
   footer { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 28px 0 calc(48px + env(safe-area-inset-bottom)); border-top: 1px solid var(--hairline); font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-faint); }
@@ -103,6 +114,9 @@
     .fig, .fig + .fig { padding: 18px 0; border-left: 0; }
     .fig:nth-child(even) { padding-left: 16px; border-left: 1px solid var(--hairline); }
     .split { grid-template-columns: 1fr; gap: 20px; }
+    .turn { grid-template-columns: 1fr; gap: 4px; }
+    .grade { grid-template-columns: repeat(3, 1fr); }
+    .grade div:nth-child(4) { padding-left: 0; border-left: 0; }
     .hero { padding-top: 64px; }
   }
   @media (prefers-reduced-motion: reduce) { .trace .draw { animation: none; stroke-dashoffset: 0; } }
@@ -214,8 +228,39 @@
     </div>
   </section>
 
+  <section>
+    <div class="label"><b>07</b><span class="en">In action</span><span class="de">So klingt MAX</span></div>
+    <div>
+      <h2><span class="en">An examiner that listens to the answer.</span><span class="de">Ein Prüfer, der der Antwort zuhört.</span></h2>
+      <div class="dialog" lang="de">
+        <div class="turn m"><span class="who">MAX</span><p>Gut. Dann beginnen wir direkt mit dem Rutherfordschen Streuversuch. Welche Beobachtung beweist, dass das Atom weitgehend leerer Raum ist?</p></div>
+        <div class="turn y"><span class="who"><span class="en">Student</span><span class="de">Schüler</span></span><p>… Die allermeisten Alphateilchen, also weit über 99 Prozent, sind einfach geradlinig und vollkommen ungehindert durch die Goldfolie durchgeflogen … Nur ein extrem kleiner Bruchteil, ungefähr eines von achttausend Teilchen, wurde stark abgelenkt oder sogar direkt zurückgeworfen. …</p></div>
+        <div class="turn m"><span class="who">MAX</span><p>Mhm. Sie sprachen von einem von achttausend Teilchen, das stark abgelenkt wurde. Was folgerte Rutherford genau aus dieser Beobachtung, abgesehen vom leeren Raum?</p></div>
+        <div class="turn y"><span class="who"><span class="en">Student</span><span class="de">Schüler</span></span><p>Daraus hat Rutherford geschlossen, dass im Zentrum eine extrem hohe Masse und die gesamte positive Ladung konzentriert sein müssen …</p></div>
+        <div class="turn m"><span class="who">MAX</span><p>Mhm. Und was wäre zu beobachten gewesen, wenn Thomsons Rosinenkuchenmodell richtig gewesen wäre?</p></div>
+      </div>
+      <div class="grade">
+        <div><b class="num big">6</b><span><span class="en">grade</span><span class="de">Note</span></span></div>
+        <div><b class="num">6</b><span><span class="en">understanding</span><span class="de">Verständnis</span></span></div>
+        <div><b class="num">6</b><span><span class="en">application</span><span class="de">Anwendung</span></span></div>
+        <div><b class="num">5.5</b><span><span class="en">delivery</span><span class="de">Darstellung</span></span></div>
+        <div><b class="num">6</b><span><span class="en">terminology</span><span class="de">Fachsprache</span></span></div>
+      </div>
+      <p class="src"><span class="en">Excerpt from an automated quality test, 11.10.2026 — all lines verbatim (shortened with …); the candidate is simulated; the grade is MAX's own assessment on the Swiss 1–6 scale.</span><span class="de">Auszug aus einem automatischen Qualitätstest, 11.10.2026 — alle Zeilen wörtlich (gekürzt mit …); der Kandidat ist simuliert; die Note ist MAX' eigene Bewertung nach der Schweizer Skala 1–6.</span></p>
+    </div>
+  </section>
+
+  <section>
+    <div class="label"><b>08</b>Team</div>
+    <div>
+      <p class="founder">Suat Human</p>
+      <p class="quiet"><span class="en">Founder · Wädenswil, Switzerland</span><span class="de">Gründer · Wädenswil, Schweiz</span></p>
+      <p><span class="en">Suat built MAX while preparing for the University of Zurich entrance examination himself — he is the product's first and most demanding user. He designs, builds and runs the whole system: the real-time voice pipeline on Gemini, the curriculum engine and the automated quality checks.</span><span class="de">Suat hat MAX entwickelt, während er sich selbst auf die Aufnahmeprüfung der Universität Zürich vorbereitet — er ist der erste und anspruchsvollste Nutzer des Produkts. Er entwirft, baut und betreibt das ganze System: die Echtzeit-Sprachpipeline auf Gemini, die Lehrplan-Engine und die automatischen Qualitätsprüfungen.</span></p>
+    </div>
+  </section>
+
   <section class="contact">
-    <div class="label"><b>07</b><span class="en">Contact</span><span class="de">Kontakt</span></div>
+    <div class="label"><b>09</b><span class="en">Contact</span><span class="de">Kontakt</span></div>
     <div>
       <p class="quiet"><span class="en">Schools, partners and investors</span><span class="de">Schulen, Partner und Investoren</span></p>
       <a href="mailto:info@maxtutor.ch">info@maxtutor.ch</a>
@@ -223,7 +268,7 @@
   </section>
 
   <footer>
-    <span>MAX Tutor · Wädenswil · <span class="en">Switzerland</span><span class="de">Schweiz</span></span>
+    <span>MAX Tutor · <span class="en">Owner</span><span class="de">Inhaber</span> Suat Human · Wädenswil · <span class="en">Switzerland</span><span class="de">Schweiz</span> · info@maxtutor.ch</span>
     <a href="datenschutz.html"><span class="en">Privacy</span><span class="de">Datenschutz</span></a>
   </footer>
 </div>
