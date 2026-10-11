@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MAX Tutor — AI voice tutor for oral exams</title>
+<meta name="description" content="MAX Tutor is a real-time AI voice tutor that teaches students and simulates oral entrance and Matura exams in German. Built on Google Gemini.">
+<meta property="og:title" content="MAX Tutor — AI voice tutor for oral exams">
+<meta property="og:description" content="Real-time voice tutoring and oral exam simulation for Swiss students. Built on Google Gemini.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://maxtutor.ch/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232f5bd3'/%3E%3Ctext x='32' y='43' font-family='Arial' font-weight='700' font-size='30' fill='white' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #fbfaf7; --fg: #191918; --muted: #5d5b56; --line: #e6e3dc; --card: #ffffff;
+    --accent: #2f5bd3; --accent-soft: #e9eefc; --ok: #1f7a4d;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #111110; --fg: #ecebe7; --muted: #a3a09a; --line: #2a2a28; --card: #191918; --accent: #8aa8ff; --accent-soft: #1c2440; --ok: #6fd3a0; }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+  header { padding: 22px 0; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .logo { font-weight: 800; letter-spacing: .03em; font-size: 20px; display: flex; align-items: center; gap: 10px; }
+  .logo i { width: 30px; height: 30px; border-radius: 8px; background: var(--accent); color: #fff; font-style: normal; display: grid; place-items: center; font-size: 16px; }
+  nav { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  nav a { color: var(--muted); text-decoration: none; font-size: 15px; }
+  .lang { border: 1px solid var(--line); background: var(--card); color: var(--fg); border-radius: 8px; padding: 4px 10px; font-size: 14px; cursor: pointer; }
+  .hero { padding: 52px 0 36px; }
+  h1 { font-size: clamp(31px, 5vw, 50px); line-height: 1.1; margin: 0 0 18px; letter-spacing: -.02em; }
+  .lead { font-size: 20px; color: var(--muted); max-width: 700px; margin: 0; }
+  .pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+  .pill { background: var(--accent-soft); color: var(--accent); border-radius: 999px; padding: 4px 12px; font-size: 13px; font-weight: 600; }
+  .cta { display: inline-block; margin-top: 26px; background: var(--accent); color: #fff; padding: 11px 20px; border-radius: 10px; text-decoration: none; font-weight: 600; }
+  section { padding: 44px 0; border-top: 1px solid var(--line); }
+  h2 { font-size: 27px; margin: 0 0 8px; letter-spacing: -.01em; }
+  .sub { color: var(--muted); margin: 0 0 22px; max-width: 720px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+  .card h3 { margin: 0 0 8px; font-size: 17px; }
+  .card p { margin: 0; color: var(--muted); font-size: 15px; }
+  .steps { counter-reset: s; display: grid; gap: 12px; }
+  .step { display: grid; grid-template-columns: 40px 1fr; gap: 12px; align-items: start; }
+  .step::before { counter-increment: s; content: counter(s); width: 32px; height: 32px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font-weight: 700; }
+  .step p { margin: 4px 0 0; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; }
+  .stat { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px; }
+  .stat b { display: block; font-size: 30px; letter-spacing: -.02em; }
+  .stat span { color: var(--muted); font-size: 14px; }
+  .road { display: grid; gap: 12px; }
+  .road div { display: grid; grid-template-columns: 110px 1fr; gap: 14px; }
+  .road b { color: var(--accent); }
+  .muted { color: var(--muted); }
+  footer { padding: 32px 0 56px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+  footer a { color: var(--muted); }
+  a { color: var(--accent); }
+  [data-lang="de"] .en, [data-lang="en"] .de { display: none; }
+  @media (max-width: 560px) { .road div { grid-template-columns: 1fr; gap: 2px; } nav a { display: none; } }
+</style>
+</head>
+<body data-lang="en">
+<div class="wrap">
+  <header>
+    <div class="logo"><i>M</i>MAX Tutor</div>
+    <nav>
+      <a href="#product"><span class="en">Product</span><span class="de">Produkt</span></a>
+      <a href="#business"><span class="en">Business</span><span class="de">Geschäftsmodell</span></a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#contact"><span class="en">Contact</span><span class="de">Kontakt</span></a>
+      <button class="lang" id="lang" type="button" aria-label="Switch language">DE</button>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div class="pills">
+      <span class="pill"><span class="en">Working MVP in daily use</span><span class="de">Funktionierendes MVP im täglichen Einsatz</span></span>
+      <span class="pill">Built on Google Gemini Live</span>
+      <span class="pill">EdTech · AI · Switzerland</span>
+    </div>
+    <h1>
+      <span class="en">The AI voice tutor that prepares students for oral exams — by talking with them.</span>
+      <span class="de">Der KI-Sprachtutor, der auf mündliche Prüfungen vorbereitet — im Gespräch.</span>
+    </h1>
+    <p class="lead">
+      <span class="en">MAX teaches a subject step by step and then examines the student like a real examination board: in real time, by voice, in German, graded on the Swiss 1–6 scale.</span>
+      <span class="de">MAX erklärt ein Fach Schritt für Schritt und prüft danach wie eine echte Prüfungskommission: in Echtzeit, mündlich, auf Deutsch, bewertet nach der Schweizer Notenskala 1–6.</span>
+    </p>
+    <a class="cta" href="#contact"><span class="en">Get in touch</span><span class="de">Kontakt aufnehmen</span></a>
+  </div>
+
+  <section>
+    <h2><span class="en">The problem</span><span class="de">Das Problem</span></h2>
+    <p class="sub">
+      <span class="en">Oral exams — the Swiss Matura, the University of Zurich entrance exam, school-leaving oral exams — demand that students speak freely for 4–5 minutes and answer follow-up questions. Students can practise written tasks alone, but have almost no way to practise speaking under exam conditions. Private tutoring and preparation courses cost CHF 800–1,100 per month, which most families cannot afford.</span>
+      <span class="de">Mündliche Prüfungen — Matura, Aufnahmeprüfung der Universität Zürich, Abschlussprüfungen — verlangen, dass Schülerinnen und Schüler 4–5 Minuten frei sprechen und Nachfragen beantworten. Schriftliches kann man allein üben, Sprechen unter Prüfungsbedingungen kaum. Nachhilfe und Vorbereitungskurse kosten CHF 800–1'100 pro Monat — für viele Familien unbezahlbar.</span>
+    </p>
+  </section>
+
+  <section id="product">
+    <h2><span class="en">The product</span><span class="de">Das Produkt</span></h2>
+    <p class="sub"><span class="en">A voice-first tutor that holds a real spoken conversation — and never answers from guesswork.</span><span class="de">Ein Tutor, der wirklich spricht — und nie aus dem Gedächtnis rät.</span></p>
+    <div class="grid">
+      <div class="card"><h3><span class="en">Real-time voice</span><span class="de">Gespräch in Echtzeit</span></h3><p><span class="en">Natural spoken dialogue with low latency, interruptions and live captions.</span><span class="de">Natürlicher Dialog mit kurzer Latenz, Unterbrechungen und Live-Untertiteln.</span></p></div>
+      <div class="card"><h3><span class="en">Oral exam simulation</span><span class="de">Prüfungssimulation</span></h3><p><span class="en">A realistic 20-minute oral exam with follow-ups and trap questions, graded on the Swiss 1–6 scale.</span><span class="de">Eine realistische 20-minütige mündliche Prüfung mit Nachfragen und Fangfragen, benotet von 1 bis 6.</span></p></div>
+      <div class="card"><h3><span class="en">Mastery-based teaching</span><span class="de">Lernen bis es sitzt</span></h3><p><span class="en">Each concept in small units: explain, let the student explain back, check with a new exam question.</span><span class="de">Jeder Begriff in kleinen Einheiten: erklären, zurückerklären lassen, mit einer neuen Prüfungsfrage prüfen.</span></p></div>
+      <div class="card"><h3><span class="en">Complete curriculum</span><span class="de">Vollständiger Stoff</span></h3><p><span class="en">Answers come verbatim from the full learning material and real past exam questions.</span><span class="de">Antworten stammen wörtlich aus dem gesamten Lernmaterial und aus echten Prüfungsfragen.</span></p></div>
+      <div class="card"><h3><span class="en">Long-answer training</span><span class="de">Langantwort-Training</span></h3><p><span class="en">Trains the uninterrupted 4–5 minute answer, with speaking time measured automatically.</span><span class="de">Trainiert die zusammenhängende 4–5-Minuten-Antwort; die Redezeit wird automatisch gemessen.</span></p></div>
+      <div class="card"><h3><span class="en">Measurable progress</span><span class="de">Messbarer Fortschritt</span></h3><p><span class="en">Exam readiness per subject, simulated grades and coverage reports after every session.</span><span class="de">Prüfungsbereitschaft pro Fach, simulierte Noten und Abdeckungsberichte nach jeder Sitzung.</span></p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="en">How a session works</span><span class="de">So läuft eine Sitzung</span></h2>
+    <div class="steps">
+      <div class="step"><div><b><span class="en">Learn</span><span class="de">Lernen</span></b><p class="muted"><span class="en">MAX explains today's concepts unit by unit and checks understanding after each one.</span><span class="de">MAX erklärt die Begriffe des Tages Einheit für Einheit und prüft nach jeder das Verständnis.</span></p></div></div>
+      <div class="step"><div><b><span class="en">Speak</span><span class="de">Sprechen</span></b><p class="muted"><span class="en">The student gives a 4–5 minute answer without interruption, like in the real exam.</span><span class="de">Der Schüler hält eine 4–5-minütige Antwort ohne Unterbrechung, wie in der echten Prüfung.</span></p></div></div>
+      <div class="step"><div><b><span class="en">Get examined</span><span class="de">Geprüft werden</span></b><p class="muted"><span class="en">A full oral exam simulation with an honest grade and concrete next steps.</span><span class="de">Eine vollständige Prüfungssimulation mit ehrlicher Note und konkreten nächsten Schritten.</span></p></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="en">Traction</span><span class="de">Stand heute</span></h2>
+    <p class="sub"><span class="en">Working MVP, in daily use for the University of Zurich entrance examination.</span><span class="de">Funktionierendes MVP, täglich im Einsatz für die Aufnahmeprüfung der Universität Zürich.</span></p>
+    <div class="stats">
+      <div class="stat"><b>9</b><span><span class="en">exam subjects</span><span class="de">Prüfungsfächer</span></span></div>
+      <div class="stat"><b>446</b><span><span class="en">curriculum topics</span><span class="de">Lehrplanthemen</span></span></div>
+      <div class="stat"><b><span class="en">~12,000</span><span class="de">~12'000</span></b><span><span class="en">learning units</span><span class="de">Lerneinheiten</span></span></div>
+      <div class="stat"><b><span class="en">~2,000</span><span class="de">~2'000</span></b><span><span class="en">real past exam questions</span><span class="de">echte Prüfungsfragen</span></span></div>
+      <div class="stat"><b>170+</b><span><span class="en">live tutoring sessions</span><span class="de">Live-Sitzungen</span></span></div>
+    </div>
+  </section>
+
+  <section id="business">
+    <h2><span class="en">Market &amp; business model</span><span class="de">Markt &amp; Geschäftsmodell</span></h2>
+    <div class="grid">
+      <div class="card"><h3><span class="en">Market</span><span class="de">Markt</span></h3><p><span class="en">Around 19,000 Gymnasium students in the Canton of Zurich alone, plus every candidate for Swiss university entrance and oral school-leaving exams. Expansion to French and English oral exams.</span><span class="de">Rund 19'000 Gymnasiastinnen und Gymnasiasten allein im Kanton Zürich, dazu alle Kandidierenden für Aufnahme- und mündliche Abschlussprüfungen. Erweiterung auf Französisch und Englisch.</span></p></div>
+      <div class="card"><h3><span class="en">Schools (B2B)</span><span class="de">Schulen (B2B)</span></h3><p><span class="en">Per-student licences paid by the school — target CHF 20 per student per month. Students and parents pay nothing.</span><span class="de">Lizenzen pro Schüler, bezahlt von der Schule — Zielpreis CHF 20 pro Schüler und Monat. Schüler und Eltern zahlen nichts.</span></p></div>
+      <div class="card"><h3><span class="en">Individuals (B2C)</span><span class="de">Einzelpersonen (B2C)</span></h3><p><span class="en">Subscriptions for students preparing for entrance exams — a fraction of the cost of private tutoring.</span><span class="de">Abos für Prüfungskandidaten — ein Bruchteil der Kosten privater Nachhilfe.</span></p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="en">Technology</span><span class="de">Technologie</span></h2>
+    <p class="sub">
+      <span class="en">MAX runs on the <b>Google Gemini Live API</b> for real-time speech-to-speech tutoring, with Gemini models for assessment and reports. It is a progressive web app with a Postgres backend. Every session's real token cost is measured, and automated quality gates check that every teaching rule holds and no curriculum content is lost.</span>
+      <span class="de">MAX läuft auf der <b>Google Gemini Live API</b> für Sprach-Tutoring in Echtzeit, mit Gemini-Modellen für Bewertung und Berichte. Eine Progressive Web App mit Postgres-Backend. Die echten Kosten jeder Sitzung werden gemessen; automatische Qualitätsprüfungen stellen sicher, dass jede Lehrregel gilt und kein Lernstoff verloren geht.</span>
+    </p>
+  </section>
+
+  <section id="roadmap">
+    <h2>Roadmap</h2>
+    <div class="road">
+      <div><b>Q4 2026</b><span><span class="en">Cost optimisation of the real-time pipeline, reliability, automated quality checks.</span><span class="de">Kostenoptimierung der Echtzeit-Pipeline, Zuverlässigkeit, automatische Qualitätsprüfungen.</span></span></div>
+      <div><b>Q1 2027</b><span><span class="en">Multi-user accounts; pilot with students preparing for Swiss entrance and Matura exams.</span><span class="de">Mehrbenutzer-Konten; Pilot mit Kandidierenden für Aufnahme- und Maturaprüfungen.</span></span></div>
+      <div><b>2027</b><span><span class="en">Pre-seed round. Offer for Swiss Kantonsschulen with per-student licences, incl. data-protection impact assessment for school use.</span><span class="de">Pre-Seed-Finanzierung. Angebot für Kantonsschulen mit Lizenzen pro Schüler, inkl. Datenschutz-Folgenabschätzung.</span></span></div>
+      <div><b><span class="en">Next</span><span class="de">Danach</span></b><span><span class="en">French and English oral exam formats; further Swiss cantons.</span><span class="de">Mündliche Prüfungen in Französisch und Englisch; weitere Kantone.</span></span></div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2><span class="en">Contact</span><span class="de">Kontakt</span></h2>
+    <p><span class="en">Schools, partners and investors:</span><span class="de">Schulen, Partner und Investoren:</span> <a href="mailto:info@maxtutor.ch">info@maxtutor.ch</a></p>
+  </section>
+
+  <footer>
+    <span>© 2026 MAX Tutor · Wädenswil, Switzerland</span>
+    <a href="datenschutz.html"><span class="en">Privacy</span><span class="de">Datenschutz</span></a>
+  </footer>
+</div>
+<script>
+  (function () {
+    var b = document.body, btn = document.getElementById("lang");
+    function set(l) { b.setAttribute("data-lang", l); document.documentElement.lang = l; btn.textContent = l === "en" ? "DE" : "EN"; try { localStorage.setItem("lang", l); } catch (e) {} }
+    var saved = null; try { saved = localStorage.getItem("lang"); } catch (e) {}
+    set(saved || ((navigator.language || "").toLowerCase().indexOf("de") === 0 ? "de" : "en"));
+    btn.addEventListener("click", function () { set(b.getAttribute("data-lang") === "en" ? "de" : "en"); });
+  })();
+</script>
+</body>
+</html>
