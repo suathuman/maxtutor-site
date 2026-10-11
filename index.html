@@ -51,7 +51,9 @@
   .trace .draw { stroke-dasharray: 2600; stroke-dashoffset: 2600; animation: draw 1.1s var(--ease) .15s forwards; }
   @keyframes draw { to { stroke-dashoffset: 0; } }
   .legend { display: flex; justify-content: space-between; gap: 16px; margin-top: 14px; font-size: 12px; letter-spacing: .06em; color: var(--ink-muted); text-transform: uppercase; }
+  .legend { flex-wrap: wrap; row-gap: 6px; }
   .legend b { font-weight: 400; }
+  .legend b:first-child { white-space: nowrap; }
   .legend .km { color: var(--max); } .legend .ky { color: var(--you); }
 
   .lead { display: grid; grid-template-columns: var(--label) 1fr; gap: 32px; padding: 64px 0 88px; }
