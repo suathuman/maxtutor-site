@@ -9,6 +9,37 @@
 <meta property="og:description" content="Real-time voice tutoring and oral exam simulation for Swiss students. Built on Google Gemini.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#0B0E0D">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://maxtutor.ch/#org",
+      "name": "MAX Tutor",
+      "legalName": "MAX Tutor (Einzelunternehmen)",
+      "url": "https://maxtutor.ch/",
+      "email": "info@maxtutor.ch",
+      "foundingDate": "2026-07",
+      "address": { "@type": "PostalAddress", "addressLocality": "Wädenswil", "addressCountry": "CH" },
+      "founder": { "@type": "Person", "name": "Suat Human", "jobTitle": "Founder" },
+      "description": "Real-time AI voice tutor that teaches students and simulates oral entrance and Matura exams in German."
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "MAX Tutor",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web (progressive web app)",
+      "inLanguage": ["de", "en"],
+      "publisher": { "@id": "https://maxtutor.ch/#org" },
+      "offers": { "@type": "Offer", "description": "Per-student school licence, target CHF 20 per student per month", "priceCurrency": "CHF", "price": "20" }
+    }
+  ]
+}
+</script>
+<meta property="og:image" content="https://suathuman.github.io/maxtutor-site/og.png">
+<meta name="twitter:card" content="summary_large_image">
+
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230B0E0D'/%3E%3Cpath d='M6 32 C14 14 20 14 26 32 S38 50 44 32 S54 18 58 32' fill='none' stroke='%23D9A05B' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -99,6 +130,28 @@
   .grade span { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-muted); }
   .src { font-family: var(--mono); font-size: 12px; letter-spacing: .04em; color: var(--ink-faint); margin-top: 14px; }
   .founder { font-size: 26px; font-weight: 500; margin: 0 0 4px; }
+  .skip { position: absolute; left: -9999px; top: 8px; background: var(--max); color: var(--ground); padding: 8px 12px; font-family: var(--mono); font-size: 13px; z-index: 10; }
+  .skip:focus { left: 16px; }
+  :focus-visible { outline: 2px solid var(--max); outline-offset: 3px; }
+  .arch { margin-top: 18px; }
+  .arch svg { display: block; width: 100%; height: auto; }
+  .arch-list { display: none; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--hairline); }
+  .arch-list li { padding: 12px 0; border-bottom: 1px solid var(--hairline); color: var(--ink-muted); font-size: 16px; }
+  .arch-list b { color: var(--ink); font-weight: 600; }
+  .arch text { font-family: var(--mono); font-size: 13px; letter-spacing: .04em; fill: var(--ink-muted); }
+  .arch .t { fill: var(--ink); font-family: var(--sans); font-size: 16px; letter-spacing: 0; }
+  .arch .box { fill: var(--surface); stroke: var(--hairline); }
+  .arch .core { fill: var(--surface); stroke: var(--max-dim); }
+  .arch .ln { stroke: var(--ink-faint); stroke-width: 1.2; fill: none; }
+  .arch .lm { stroke: var(--max); stroke-width: 1.6; fill: none; }
+  .arch .ly { stroke: var(--you); stroke-width: 1.6; fill: none; }
+  .faq { margin-top: 8px; border-top: 1px solid var(--hairline); }
+  .faq details { border-bottom: 1px solid var(--hairline); padding: 16px 0; }
+  .faq summary { cursor: pointer; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: "+"; font-family: var(--mono); color: var(--ink-muted); }
+  .faq details[open] summary::after { content: "–"; }
+  .faq p { margin: 10px 0 0; color: var(--ink-muted); font-size: 16px; }
   .contact a { font-size: clamp(24px, 3.4vw, 40px); font-weight: 500; letter-spacing: -.01em; }
 
   footer { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 28px 0 calc(48px + env(safe-area-inset-bottom)); border-top: 1px solid var(--hairline); font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-faint); }
@@ -115,6 +168,7 @@
     .fig:nth-child(even) { padding-left: 16px; border-left: 1px solid var(--hairline); }
     .split { grid-template-columns: 1fr; gap: 20px; }
     .turn { grid-template-columns: 1fr; gap: 4px; }
+    .arch svg { display: none; } .arch-list { display: block; }
     .grade { grid-template-columns: repeat(3, 1fr); }
     .grade div:nth-child(4) { padding-left: 0; border-left: 0; }
     .hero { padding-top: 64px; }
@@ -123,6 +177,7 @@
 </style>
 </head>
 <body data-lang="en">
+<a class="skip" href="#main"><span class="en">Skip to content</span><span class="de">Zum Inhalt</span></a>
 <div class="wrap">
   <header>
     <div class="mark">MAX<span>Tutor</span></div>
@@ -132,6 +187,7 @@
     </div>
   </header>
 
+  <main id="main">
   <div class="hero">
     <h1>
       <span class="en">Oral exams are passed by <i>speaking</i>. So we practise <em>by voice</em>.</span>
@@ -212,6 +268,36 @@
     <div>
       <h2><span class="en">Built on Google Gemini.</span><span class="de">Gebaut auf Google Gemini.</span></h2>
       <p><span class="en">Real-time speech-to-speech conversation runs on the Gemini Live API; assessment and reports use Gemini models. The real cost of every session is measured, and automated checks verify that every teaching rule holds and that no curriculum content is lost.</span><span class="de">Das Gespräch in Echtzeit läuft über die Gemini Live API; Bewertung und Berichte nutzen Gemini-Modelle. Die echten Kosten jeder Sitzung werden gemessen, automatische Prüfungen stellen sicher, dass jede Lehrregel gilt und kein Lernstoff verloren geht.</span></p>
+      <figure class="arch" aria-label="Architecture">
+        <svg viewBox="0 0 900 300" role="img">
+          <rect class="box" x="0" y="110" width="180" height="80" rx="4"/>
+          <text class="t" x="20" y="146"><tspan class="en">Student</tspan><tspan class="de">Schüler</tspan></text>
+          <text x="20" y="170"><tspan class="en">voice · browser</tspan><tspan class="de">Stimme · Browser</tspan></text>
+          <path class="ly" d="M180 135 H270"/><path class="lm" d="M270 165 H180"/>
+          <text x="192" y="125">audio</text><text x="192" y="188">audio</text>
+          <rect class="core" x="270" y="70" width="350" height="160" rx="4"/>
+          <text class="t" x="292" y="106">Gemini Live API</text>
+          <text x="292" y="132"><tspan class="en">real-time speech-to-speech</tspan><tspan class="de">Sprache zu Sprache, Echtzeit</tspan></text>
+          <text x="292" y="168"><tspan class="en">MAX: teaching loop · exam</tspan><tspan class="de">MAX: Lernschleife · Prüfung</tspan></text>
+          <text x="292" y="192"><tspan class="en">tools: lookup · grading</tspan><tspan class="de">Werkzeuge: Nachschlagen</tspan></text>
+          <path class="ln" d="M620 110 H650"/><path class="ln" d="M620 190 H650"/>
+          <rect class="box" x="650" y="66" width="250" height="84" rx="4"/>
+          <text class="t" x="670" y="100"><tspan class="en">Curriculum engine</tspan><tspan class="de">Lehrplan-Engine</tspan></text>
+          <text x="670" y="126"><tspan class="en">11,980 units, verbatim</tspan><tspan class="de">11'980 Einheiten, wörtlich</tspan></text>
+          <rect class="box" x="650" y="150" width="250" height="84" rx="4"/>
+          <text class="t" x="670" y="184"><tspan class="en">Assessment</tspan><tspan class="de">Bewertung</tspan></text>
+          <text x="670" y="210"><tspan class="en">Gemini · Swiss scale 1–6</tspan><tspan class="de">Gemini · Skala 1–6</tspan></text>
+          <path class="ln" d="M445 230 V262"/>
+          <text x="300" y="286"><tspan class="en">quality gates · cost per session</tspan><tspan class="de">Qualitätsprüfungen · Kosten je Sitzung</tspan></text>
+        </svg>
+        <ol class="arch-list">
+          <li><b><span class="en">Student</span><span class="de">Schüler</span></b> — <span class="en">speaks in the browser</span><span class="de">spricht im Browser</span></li>
+          <li><b>Gemini Live API</b> — <span class="en">real-time speech-to-speech; MAX runs the teaching loop and the exam</span><span class="de">Sprache zu Sprache in Echtzeit; MAX führt Lernschleife und Prüfung</span></li>
+          <li><b><span class="en">Curriculum engine</span><span class="de">Lehrplan-Engine</span></b> — <span class="en">11,980 units, looked up verbatim</span><span class="de">11'980 Einheiten, wörtlich nachgeschlagen</span></li>
+          <li><b><span class="en">Assessment</span><span class="de">Bewertung</span></b> — <span class="en">Gemini, Swiss scale 1–6</span><span class="de">Gemini, Skala 1–6</span></li>
+          <li><b><span class="en">Quality gates</span><span class="de">Qualitätsprüfungen</span></b> — <span class="en">every rule checked, real cost per session measured</span><span class="de">jede Regel geprüft, echte Kosten je Sitzung gemessen</span></li>
+        </ol>
+      </figure>
     </div>
   </section>
 
@@ -251,7 +337,20 @@
   </section>
 
   <section>
-    <div class="label"><b>08</b>Team</div>
+    <div class="label"><b>08</b><span class="en">For schools</span><span class="de">Für Schulen</span></div>
+    <div>
+      <h2><span class="en">Questions schools ask first.</span><span class="de">Was Schulen zuerst fragen.</span></h2>
+      <div class="faq">
+        <details><summary><span class="en">How is student data protected?</span><span class="de">Wie werden Schülerdaten geschützt?</span></summary><p><span class="en">Before any school pilot, MAX completes a data-protection impact assessment under the Swiss and cantonal data-protection law and signs a data-processing agreement with the school. Students are never asked to pay or to create private accounts.</span><span class="de">Vor jedem Schulpilot erstellt MAX eine Datenschutz-Folgenabschätzung nach Schweizer und kantonalem Datenschutzrecht und schliesst mit der Schule einen Auftragsverarbeitungsvertrag. Schüler zahlen nie und brauchen keine privaten Konten.</span></p></details>
+        <details><summary><span class="en">Which subjects and languages?</span><span class="de">Welche Fächer und Sprachen?</span></summary><p><span class="en">Today: nine subjects of the University of Zurich entrance exam, examined in German. French and English oral exams are on the roadmap.</span><span class="de">Heute: neun Fächer der Aufnahmeprüfung der Universität Zürich, geprüft auf Deutsch. Mündliche Prüfungen auf Französisch und Englisch sind geplant.</span></p></details>
+        <details><summary><span class="en">What does it cost a school?</span><span class="de">Was kostet es eine Schule?</span></summary><p><span class="en">Target price CHF 20 per student per month, paid by the school. Pilot terms are agreed individually.</span><span class="de">Zielpreis CHF 20 pro Schüler und Monat, bezahlt von der Schule. Pilotkonditionen werden individuell vereinbart.</span></p></details>
+        <details><summary><span class="en">Does it replace teachers?</span><span class="de">Ersetzt MAX Lehrpersonen?</span></summary><p><span class="en">No. MAX gives every student the speaking practice a teacher has no time to provide one-to-one — the exam itself stays with the school.</span><span class="de">Nein. MAX gibt jedem Schüler das Sprechtraining, für das Lehrpersonen im Einzelgespräch keine Zeit haben — die Prüfung selbst bleibt bei der Schule.</span></p></details>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="label"><b>09</b>Team</div>
     <div>
       <p class="founder">Suat Human</p>
       <p class="quiet"><span class="en">Founder · Wädenswil, Switzerland</span><span class="de">Gründer · Wädenswil, Schweiz</span></p>
@@ -260,16 +359,18 @@
   </section>
 
   <section class="contact">
-    <div class="label"><b>09</b><span class="en">Contact</span><span class="de">Kontakt</span></div>
+    <div class="label"><b>10</b><span class="en">Contact</span><span class="de">Kontakt</span></div>
     <div>
       <p class="quiet"><span class="en">Schools, partners and investors</span><span class="de">Schulen, Partner und Investoren</span></p>
       <a href="mailto:info@maxtutor.ch">info@maxtutor.ch</a>
     </div>
   </section>
 
+  </main>
+
   <footer>
     <span>MAX Tutor · <span class="en">Owner</span><span class="de">Inhaber</span> Suat Human · Wädenswil · <span class="en">Switzerland</span><span class="de">Schweiz</span> · info@maxtutor.ch</span>
-    <a href="datenschutz.html"><span class="en">Privacy</span><span class="de">Datenschutz</span></a>
+    <span><a href="impressum.html">Impressum</a> · <a href="datenschutz.html"><span class="en">Privacy</span><span class="de">Datenschutz</span></a></span>
   </footer>
 </div>
 <script>
